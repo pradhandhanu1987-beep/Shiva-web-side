@@ -1,1 +1,182 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHIVA FASHION PRO</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f7f7f7;color:#222}
+header{background:#111;color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.logo{font-size:24px;font-weight:bold;letter-spacing:2px}
+.logo span{color:#e9bd75}
+header button,.btn{background:#d7a85d;color:#111;border:0;padding:11px 18px;border-radius:5px;font-weight:bold;cursor:pointer}
+nav{background:#222;padding:14px;text-align:center}
+nav a{color:white;text-decoration:none;margin:0 12px;font-size:14px}
+.hero{padding:65px 20px;text-align:center;background:linear-gradient(120deg,#171717,#494039);color:white}
+.hero h1{font-size:38px;margin-bottom:15px}
+.hero p{color:#ddd;margin-bottom:22px}
+.section{padding:35px 5%}
+.section h2{text-align:center;margin-bottom:25px;font-size:26px}
+.search{display:block;width:100%;max-width:450px;margin:0 auto 20px;padding:13px;border:1px solid #ccc;border-radius:6px;font-size:16px}
+.categories{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.categories button{padding:10px 18px;border:1px solid #c49b60;background:white;border-radius:20px;cursor:pointer}
+.categories button.active{background:#222;color:white}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
+.card{background:white;border-radius:9px;overflow:hidden;box-shadow:0 3px 12px #0001}
+.card img{width:100%;height:240px;object-fit:cover}
+.info{padding:15px}
+.info h3{margin-bottom:8px}
+.price{font-size:19px;font-weight:bold;color:#a56c25;margin:10px 0}
+.card button{width:100%;padding:11px;border:0;border-radius:5px;background:#171717;color:white;font-weight:bold;cursor:pointer}
+.offer{background:#ead9bd;padding:35px 15px;text-align:center}
+.offer h2{margin-bottom:10px}
+.about{text-align:center;line-height:1.8;max-width:700px;margin:auto}
+.contact{background:#222;color:white;text-align:center;padding:35px 15px;line-height:2}
+footer{background:#111;color:#aaa;text-align:center;padding:18px;font-size:13px}
+#cartPanel{display:none;background:white;padding:20px;position:fixed;right:12px;top:100px;width:min(350px,90%);max-height:75vh;overflow:auto;z-index:10;box-shadow:0 3px 20px #0005;border-radius:10px}
+#cartPanel button{margin:8px 3px;padding:8px}
+.cartitem{padding:10px;border-bottom:1px solid #ddd}
+@media(max-width:500px){.hero h1{font-size:29px}nav a{margin:5px;display:inline-block}.card img{height:210px}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">SHIVA <span>FASHION</span></div>
+<button onclick="toggleCart()">🛒 CART (<span id="count">0</span>)</button>
+</header>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#products">Products</a>
+<a href="#offers">Offers</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<section class="hero" id="home">
+<h1>WELCOME TO SHIVA FASHION</h1>
+<p>Discover Your Style. Wear Your Confidence.</p>
+<a href="#products"><button class="btn">SHOP NOW</button></a>
+</section>
+
+<section class="section" id="products">
+<h2>OUR COLLECTION</h2>
+
+<input class="search" id="search" placeholder="Search your favourite product..." oninput="renderProducts()">
+
+<div class="categories">
+<button class="active" onclick="setCategory('All',this)">All</button>
+<button onclick="setCategory('Men',this)">Men</button>
+<button onclick="setCategory('Women',this)">Women</button>
+<button onclick="setCategory('Kids',this)">Kids</button>
+</div>
+
+<div class="products" id="productList"></div>
+</section>
+
+<section class="offer" id="offers">
+<h2>SPECIAL COLLECTION</h2>
+<p>New Arrivals • Latest Fashion • Great Shopping Experience</p>
+</section>
+
+<section class="section" id="about">
+<h2>ABOUT US</h2>
+<div class="about">
+<p>Welcome to Shiva Fashion. Explore our latest clothing collections and discover styles for every occasion. We aim to make your shopping experience simple and enjoyable.</p>
+</div>
+</section>
+
+<section class="contact" id="contact">
+<h2>CONTACT OUR STORE</h2>
+<p>Shop Name: Your Shop Name</p>
+<p>Address: Your Shop Address</p>
+<p>Phone: Your Contact Number</p>
+<p>WhatsApp: Contact us for orders</p>
+</section>
+
+<footer>
+© 2026 SHIVA FASHION PRO | All Rights Reserved
+</footer>
+
+<div id="cartPanel">
+<h3>Your Shopping Cart</h3>
+<div id="cartItems"></div>
+<h3 id="total">Total: ₹0</h3>
+<button onclick="checkout()">Order on WhatsApp</button>
+<button onclick="toggleCart()">Close</button>
+</div>
+
+<script>
+const products=[
+{id:1,name:"Classic Men's Shirt",price:680,category:"Men",image:"https://images.unsplash.com/photo-1603252109303-2751441dd157?w=600"},
+{id:2,name:"Premium Fashion Dress",price:1150,category:"Women",image:"https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600"},
+{id:3,name:"Casual Men's Outfit",price:850,category:"Men",image:"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600"},
+{id:4,name:"Kids Fashion Wear",price:550,category:"Kids",image:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600"}
+];
+
+let cart=[];
+let category="All";
+
+function setCategory(value,button){
+category=value;
+document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
+button.classList.add("active");
+renderProducts();
+}
+
+function renderProducts(){
+let search=document.getElementById("search").value.toLowerCase();
+let filtered=products.filter(p=>
+(category==="All"||p.category===category)&&p.name.toLowerCase().includes(search)
+);
+document.getElementById("productList").innerHTML=filtered.map(p=>`
+<div class="card">
+<img src="${p.image}" alt="${p.name}">
+<div class="info">
+<h3>${p.name}</h3>
+<p>${p.category} Collection</p>
+<div class="price">₹${p.price}</div>
+<button onclick="addToCart(${p.id})">ADD TO CART</button>
+</div>
+</div>`).join("")||"<p>No products found.</p>";
+}
+
+function addToCart(id){
+let item=products.find(p=>p.id===id);
+cart.push(item);
+updateCart();
+alert("Product added to cart!");
+}
+
+function updateCart(){
+document.getElementById("count").innerText=cart.length;
+document.getElementById("cartItems").innerHTML=cart.map((p,i)=>`
+<div class="cartitem">${p.name} - ₹${p.price}
+<button onclick="removeItem(${i})">Remove</button></div>`).join("");
+let total=cart.reduce((sum,p)=>sum+p.price,0);
+document.getElementById("total").innerText="Total: ₹"+total;
+}
+
+function removeItem(i){
+cart.splice(i,1);
+updateCart();
+}
+
+function toggleCart(){
+let panel=document.getElementById("cartPanel");
+panel.style.display=panel.style.display==="block"?"none":"block";
+}
+
+function checkout(){
+if(cart.length===0){alert("Your cart is empty!");return;}
+alert("Demo website: Please add your shop WhatsApp number in the code before accepting orders.");
+}
+
+renderProducts();
+</script>
+</body>
+</html>
+
