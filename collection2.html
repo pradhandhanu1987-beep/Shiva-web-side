@@ -1,10 +1,47 @@
-<div class="box">
-  <img src="file_000000008c5c82109ac3d6656c6d8394.png" alt="Blue Floral Print Shirt">
-  <h2>Blue Floral Print Shirt</h2>
-  <p>Code - COWBOY-006</p>
-  <p>Price - Rs. 680 Only</p>
-  <p>Premium Floral Designer Shirt</p>
-  <a class="btn-blue" href="https://wa.me/919337445227?text=%20Mujhe%20Blue%20Floral%20Print%20Shirt%20COWBOY-006%20chahiye">Buy Now</a>
-  <a class="btn-green" href="https://wa.me/919337445227?text=%20Mujhe%20Blue%20Floral%20Print%20Shirt%20COWBOY-006%20chahiye">Order on WhatsApp</a>
-</div>
-
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shiva Web Side - Collection | WhatsApp Order</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+header{background:#2874f0;color:#fff;padding:14px 16px;display:flex;gap:12px;align-items:center;position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.logo{font-size:26px;font-weight:900;font-style:italic}.logo span{font-size:12px;color:#ffe500;display:block;font-style:italic}
+.search{flex:1;min-width:180px;display:flex;background:#fff;border-radius:3px;overflow:hidden}.search input{flex:1;border:0;padding:11px;outline:none}.search button{border:0;background:#fff;padding:0 12px;font-size:18px}
+.wa-top{background:#25D366;color:#fff;border:0;padding:9px 16px;font-weight:800;border-radius:20px;cursor:pointer}
+.banner{background:linear-gradient(90deg,#075e54,#25D366);color:#fff;padding:28px 18px;text-align:center}.banner h1{font-size:32px}.banner p{margin:8px 0}
+.cats{background:#fff;display:flex;gap:14px;overflow:auto;padding:12px 16px;white-space:nowrap}.cats button{border:1px solid #ddd;background:#fff;padding:8px 16px;border-radius:20px;font-weight:700;cursor:pointer}.cats button.active{background:#2874f0;color:#fff}
+h2{padding:16px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;padding:0 16px 20px}
+.card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px #0002;text-align:center;padding-bottom:12px}.card img{width:100%;height:200px;object-fit:cover}.card h3{font-size:15px;margin:8px 6px}.price{font-weight:900}.old{color:#888;text-decoration:line-through;font-size:13px}.off{color:green;font-weight:700;font-size:13px}.rate{display:inline-block;background:green;color:#fff;padding:2px 8px;border-radius:10px;font-size:12px;margin:5px}.stock{color:green;font-size:12px;font-weight:700}
+.wa{display:block;background:#25D366;color:#fff;text-decoration:none;margin:10px 10px 0;padding:11px;border-radius:6px;font-weight:900}
+.call{display:block;background:#fff;color:#2874f0;border:1px solid #2874f0;text-decoration:none;margin:8px 10px 0;padding:10px;border-radius:6px;font-weight:800}
+footer{background:#172337;color:#fff;padding:22px;text-align:center;font-size:13px;line-height:1.8}
+.note{background:#fff3cd;padding:12px 16px;margin:0 16px 16px;border-radius:8px;font-size:14px}
+</style></head><body>
+<header><div class="logo">Shiva<span>Web Side ✨</span></div><div class="search"><input id="s" placeholder="Collection me search karo..."><button onclick="filter()">🔍</button></div><button class="wa-top" onclick="openWA('Hello Shiva Web Side! Mujhe order karna hai')">💬 WhatsApp Order</button></header>
+<div class="banner"><h1>🛍️ SHIVA COLLECTION</h1><p>Pasand aaye to seedha WhatsApp pe Order karo - Cash on Delivery Available!</p><p>📦 All India Delivery | 💵 COD Available | 🔄 Easy Return</p></div>
+<div class="cats"><button class="active" onclick="showAll(this)">All</button><button onclick="filterCat('Shirt',this)">Shirts</button><button onclick="filterCat('Kurti',this)">Kurtis</button><button onclick="filterCat('Jeans',this)">Jeans</button><button onclick="filterCat('Dress',this)">Dresses</button></div>
+<div class="note">👉 <b>Order kaise kare?</b> Kisi bhi product ke neeche <b>WhatsApp pe Order</b> dabao - WhatsApp khul jayega, product ka naam pehle se likha hoga. Bas SEND dabao!</div>
+<h2>🔥 Our Collection</h2><div class="grid" id="grid"></div>
+<footer><b>SHIVA WEB SIDE</b><br>WhatsApp Order | Cash on Delivery | All India Delivery<br>© 2026 Shiva Web Side</footer>
+<script>
+const MY_NUMBER = "91XXXXXXXXXX";
+const P=[
+["Blue Floral Print Shirt",499,999,"50% off","4.3","Shirt","https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500"],
+["Beige Casual Shirt",599,1199,"50% off","4.5","Shirt","https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500"],
+["Blue Denim Shirt",699,1399,"50% off","4.4","Shirt","https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500"],
+["Men Printed T-Shirt",299,799,"63% off","4.2","Shirt","https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"],
+["Women Floral Kurti",799,1599,"50% off","4.6","Kurti","https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500"],
+["Men Slim Fit Jeans",899,1799,"50% off","4.3","Jeans","https://images.unsplash.com/photo-1542272604-787c3835535d?w=500"],
+["Women Summer Dress",999,1999,"50% off","4.5","Dress","https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500"],
+["Men Formal Shirt",749,1499,"50% off","4.4","Shirt","https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500"]];
+function openWA(msg){ window.open("https://wa.me/"+MY_NUMBER+"?text="+encodeURIComponent(msg),"_blank"); }
+function render(list){
+ document.getElementById('grid').innerHTML=list.map(p=>{
+  let msg="Hello Shiva Web Side! 👋\nMujhe ye order karna hai:\n\n📌 Product: "+p[0]+"\n💰 Price: Rs."+p[1]+" (MRP Rs."+p[2]+")\n\nPlease order confirm karo. Naam:\nAddress:\nSize:";
+  return `<div class="card"><img src="${p[6]}"><h3>${p[0]}</h3><span class="rate">${p[4]} ★</span> <span class="stock">● In Stock</span><br><span class="price">₹${p[1]}</span> <span class="old">₹${p[2]}</span> <span class="off">${p[3]}</span><br><a class="wa" href="#" onclick="openWA(${JSON.stringify(msg).replace(/"/g,'&quot;')});return false;">💬 WhatsApp pe Order</a><a class="call" href="https://wa.me/${MY_NUMBER}">📞 WhatsApp pe Baat Karo</a></div>`;
+ }).join('');
+}
+function filter(){ let q=document.getElementById('s').value.toLowerCase(); render(P.filter(p=>p[0].toLowerCase().includes(q))); }
+function filterCat(c,btn){ document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(P.filter(p=>p[5]===c)); }
+function showAll(btn){ document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(P); }
+render(P);
+</script></body></html>
