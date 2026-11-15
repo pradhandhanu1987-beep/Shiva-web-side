@@ -1,1 +1,47 @@
-
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shiva Web Side - Shop | 【entity-Flipkart¦canonical_name=Flipkart】 Style</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+header{background:#2874f0;color:#fff;padding:12px;display:flex;gap:10px;align-items:center;position:sticky;top:0;z-index:10}
+.logo{font-size:24px;font-weight:900;font-style:italic;line-height:1}.logo span{font-size:11px;color:#ffe500;font-style:normal}
+.search{flex:1;display:flex;background:#fff;border-radius:3px;overflow:hidden}.search input{flex:1;border:0;padding:10px;outline:none;font-size:14px}.search b{color:#2874f0;padding:9px}
+.cats{background:#fff;display:flex;gap:8px;overflow:auto;padding:12px;white-space:nowrap}.cats button{border:1px solid #ddd;padding:9px 18px;border-radius:20px;background:#fff;font-weight:700;cursor:pointer}.cats button.active{background:#2874f0;color:#fff}
+.banner{background:linear-gradient(90deg,#2874f0,#00b0ff);color:#fff;padding:22px 16px;text-align:center}.banner h1{font-size:28px}.banner p{margin-top:6px;font-size:14px}
+h2{padding:14px 14px 6px;font-size:18px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+.card{background:#fff;border:1px solid #eee;border-radius:8px;overflow:hidden;padding-bottom:10px}.card img{width:100%;height:190px;object-fit:cover}
+.card h3{font-size:13px;padding:8px 8px 2px;min-height:36px}.price{padding:2px 8px;font-weight:900;font-size:15px}.price s{color:#888;font-weight:400;font-size:12px}.price span{color:#388e3c;font-size:12px}
+.rate{margin:4px 8px;background:#388e3c;color:#fff;font-size:12px;padding:2px 6px;border-radius:10px;display:inline-block}
+.free{color:#2874f0;font-size:12px;padding:0 8px}
+.wa{display:block;background:#25D366;color:#fff;text-decoration:none;margin:8px 8px 0;padding:10px;border-radius:5px;text-align:center;font-weight:800;font-size:14px}
+.call{display:block;background:#fff;color:#2874f0;border:1px solid #2874f0;text-decoration:none;margin:6px 8px 0;padding:9px;border-radius:5px;text-align:center;font-weight:800;font-size:14px}
+footer{background:#172337;color:#fff;text-align:center;font-size:13px;line-height:1.8;padding:18px}
+</style></head><body>
+<header><div class="logo">Shiva<span>Web Side ✨</span></div><div class="search"><input id="s" placeholder="Search for shirts, kurtis, jeans..." oninput="filter()"><b>🔍</b></div></header>
+<div class="cats"><button class="active" onclick="showAll(this)">All</button><button onclick="filterCat('Shirt',this)">👔 Shirts</button><button onclick="filterCat('Kurti',this)">👗 Kurtis</button><button onclick="filterCat('Jeans',this)">👖 Jeans</button><button onclick="filterCat('Dress',this)">💃 Dresses</button></div>
+<div class="banner"><h1>🔥 Big Saving Days</h1><p>50% - 63% OFF | COD Available | All India Delivery</p></div>
+<h2>🔥 Top Deals For You</h2><div class="grid" id="grid"></div>
+<footer><b>SHIVA WEB SIDE</b><br>WhatsApp Order | Cash on Delivery | All India Delivery<br>© 2026 Shiva Web Side</footer>
+<script>
+const MY_NUMBER="91XXXXXXXXXX";
+let P=[
+["Blue Floral Print Shirt",499,999,"50% off","4.3","Shirt","https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500"],
+["Beige Casual Shirt",599,1199,"50% off","4.5","Shirt","https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500"],
+["Blue Denim Shirt",699,1399,"50% off","4.4","Shirt","https://images.unsplash.com/photo-1594938298603-c8144c4dae35?w=500"],
+["Men Printed T-Shirt",299,799,"63% off","4.2","Shirt","https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"],
+["Women Floral Kurti",799,1599,"50% off","4.6","Kurti","https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500"],
+["Women Pink Kurti",899,1799,"50% off","4.5","Kurti","https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500"],
+["Men Slim Fit Jeans",899,1799,"50% off","4.3","Jeans","https://images.unsplash.com/photo-1542272604-787c3835535d?w=500"],
+["Women Summer Dress",999,1999,"50% off","4.5","Dress","https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500"]
+];
+function render(list){
+document.getElementById('grid').innerHTML=list.map(p=>{
+let msg="Hello Shiva Web Side!\n\nMujhe ye order karna hai:\n\n📌 Product: "+p[0]+"\n💰 Price: Rs."+p[1]+" (MRP Rs."+p[2]+")";
+return '<div class="card"><img src="'+p[6]+'"><h3>'+p[0]+'</h3><div class="price">₹'+p[1]+' <s>₹'+p[2]+'</s> <span>'+p[3]+'</span></div><span class="rate">'+p[4]+' ★</span><div class="free">Free delivery</div><a class="wa" href="https://wa.me/'+MY_NUMBER+'?text='+encodeURIComponent(msg)+'">WhatsApp pe Order</a><a class="call" href="tel:+'+MY_NUMBER+'">📞 Call Karo</a></div>';
+}).join('');
+}
+function filter(){let q=document.getElementById('s').value.toLowerCase();render(P.filter(p=>p[0].toLowerCase().includes(q)));}
+function filterCat(c,btn){document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render(P.filter(p=>p[5]==c));}
+function showAll(btn){document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render(P);}
+render(P);
+</script></body></html>
