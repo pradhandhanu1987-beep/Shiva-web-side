@@ -1,1 +1,274 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE VAULT // Underground Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-color: #00ff66;
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+            --border-color: #222222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        /* Scanline Overlay Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 999;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 50px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-main);
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .status {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        .hero {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 span {
+            -webkit-text-stroke: 1px var(--text-main);
+            color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+
+        /* Drop Grid Section */
+        .grid-section {
+            padding: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 15px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: #0a0a0a;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            position: relative;
+            transition: 0.3s ease;
+        }
+
+        .product-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 350px;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-img::after {
+            content: "CLASSIFIED";
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.05;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .product-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .product-price {
+            color: var(--accent-color);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Share Tech Mono', monospace;
+            transition: 0.2s;
+        }
+
+        .cta-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            margin-top: 100px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">ARCHIVE_01<span>.</span></div>
+        <div class="status">
+            <div class="pulse"></div> SYSTEM ACTIVE // GLOBAL DROP
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Engineered for the <span>Underground</span></h1>
+        <p>Zero mass production. Pure experimental aesthetics built for international collectors and independent style pioneers.</p>
+        <a href="#vault" class="cta-btn" style="width: 250px;">Access Catalog</a>
+    </section>
+
+    <section class="grid-section" id="vault">
+        <div class="section-title">Current Active Drops</div>
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-img">[ IMAGE_01.JPG ]</div>
+                <div class="product-info">
+                    <div class="product-name">VOID OVERSIZED HOODIE</div>
+                    <div class="product-price">$120.00</div>
+                </div>
+                <a href="#" class="cta-btn">Secure Item</a>
+            </div>
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-img">[ IMAGE_02.JPG ]</div>
+                <div class="product-info">
+                    <div class="product-name">CYBER CARGO PANTS</div>
+                    <div class="product-price">$145.00</div>
+                </div>
+                <a href="#" class="cta-btn">Secure Item</a>
+            </div>
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-img">[ IMAGE_03.JPG ]</div>
+                <div class="product-info">
+                    <div class="product-name">GLITCH GRAPHIC TEE</div>
+                    <div class="product-price">$65.00</div>
+                </div>
+                <a href="#" class="cta-btn">Secure Item</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 ARCHIVE STUDIO. ALL RIGHTS RESERVED. SECURED VIA GITHUB.</p>
+    </footer>
+
+</body>
+</html>
