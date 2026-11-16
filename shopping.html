@@ -1,1 +1,423 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shiva Shopping</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,sans-serif;
+ background:#f4f6fa;color:#172033
+}
+header{
+ background:#172554;color:white;padding:17px 14px;
+ text-align:center
+}
+.logo{font-size:28px;font-weight:900;color:#ffcf24}
+header p{margin:5px;font-size:14px}
+.search{
+ display:flex;gap:7px;padding:12px;
+ background:white
+}
+.search input{
+ flex:1;min-width:0;padding:12px;
+ border:1px solid #ddd;border-radius:8px
+}
+button{
+ border:0;border-radius:7px;padding:10px 13px;
+ background:#172554;color:white;font-weight:bold;
+ cursor:pointer
+}
+.yellow{background:#ffca28;color:#172554}
+nav{
+ display:flex;justify-content:space-around;
+ padding:13px 3px;background:white;
+ border-bottom:1px solid #ddd
+}
+nav a{
+ text-decoration:none;color:#172554;
+ font-size:13px;font-weight:bold
+}
+.banner{
+ margin:14px;padding:22px 15px;
+ background:linear-gradient(120deg,#172554,#3157a4);
+ color:white;border-radius:12px
+}
+.banner h2{margin:0 0 8px;color:#ffcf24}
+.container{padding:12px;max-width:1000px;margin:auto}
+.heading{
+ display:flex;justify-content:space-between;
+ align-items:center;margin:18px 0 12px
+}
+.heading h2{font-size:20px;margin:0}
+.products{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px
+}
+.card{
+ background:white;border-radius:12px;
+ overflow:hidden;box-shadow:0 2px 9px #00000012;
+ padding:9px;min-width:0
+}
+.photo{
+ width:100%;height:190px;object-fit:cover;
+ border-radius:8px;background:#eee
+}
+.photo-label{font-size:11px;color:#777;margin:5px 0}
+.card h3{font-size:15px;margin:9px 0}
+.price{font-size:19px;font-weight:bold;color:#15803d}
+.size-select{
+ width:100%;padding:9px;border:1px solid #ddd;
+ border-radius:7px;margin:8px 0
+}
+.card button{width:100%;margin-top:5px}
+.cart-box,.admin-box{
+ background:white;padding:15px;border-radius:12px;
+ margin:18px 0;box-shadow:0 2px 8px #00000010
+}
+.cart-row{
+ border-bottom:1px solid #ddd;padding:9px 0;
+ font-size:14px
+}
+.whatsapp{background:#168b46;width:100%;padding:14px}
+.admin-box input{
+ width:100%;padding:11px;margin:7px 0;
+ border:1px solid #ccc;border-radius:7px
+}
+.admin-box label{font-size:13px;font-weight:bold}
+.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
+.delete{background:#dc2626}
+.edit{background:#d69b00;color:#172033}
+footer{
+ background:#172554;color:white;text-align:center;
+ padding:20px;margin-top:25px
+}
+.empty{text-align:center;padding:25px;color:#777}
+@media(min-width:650px){
+ .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .photo{height:250px}
+}
+@media(min-width:900px){
+ .products{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">SHIVA SHOPPING</div>
+ <p>Bhagyabati Cloth Store</p>
+ <p>Fashion • Style • Shopping</p>
+</header>
+
+<div class="search">
+ <input id="search" placeholder="Search your favourite dress..."
+ oninput="renderProducts()">
+ <button class="yellow" onclick="document.getElementById('products').scrollIntoView()">Search</button>
+</div>
+
+<nav>
+ <a href="#home">HOME</a>
+ <a href="#products">DRESSES</a>
+ <a href="#cart">CART 🛒</a>
+ <a href="#admin">ADD DRESS</a>
+</nav>
+
+<main class="container">
+
+<section id="home" class="banner">
+ <h2>Welcome to Shiva Shopping!</h2>
+ <p>Discover your favourite fashion collection.</p>
+ <button class="yellow" onclick="document.getElementById('products').scrollIntoView()">
+ SHOP NOW
+ </button>
+</section>
+
+<section id="products">
+ <div class="heading">
+  <h2>Our Collection</h2>
+  <span id="count">0 Products</span>
+ </div>
+ <div id="productList" class="products"></div>
+</section>
+
+<section id="cart" class="cart-box">
+ <h2>🛒 My Shopping Cart</h2>
+ <div id="cartList" class="empty">Your cart is empty.</div>
+ <h3 id="total">Total: ₹0</h3>
+ <button class="whatsapp" onclick="orderNow()">
+ ORDER ON WHATSAPP
+ </button>
+</section>
+
+<section id="admin" class="admin-box">
+ <h2>Manage Dresses</h2>
+ <p>Add, edit or delete products.</p>
+
+ <input type="hidden" id="editId">
+
+ <label>Dress Name</label>
+ <input id="name" placeholder="Enter dress name">
+
+ <label>Price (₹)</label>
+ <input id="price" type="number" min="1" placeholder="Enter price">
+
+ <label>Front Photo</label>
+ <input id="front" type="file" accept="image/*">
+
+ <label>Back Photo</label>
+ <input id="back" type="file" accept="image/*">
+
+ <label>Available Sizes</label>
+ <p>
+ <label><input type="checkbox" name="size" value="S"> S</label>
+ <label><input type="checkbox" name="size" value="M"> M</label>
+ <label><input type="checkbox" name="size" value="L"> L</label>
+ <label><input type="checkbox" name="size" value="XL"> XL</label>
+ <label><input type="checkbox" name="size" value="XXL"> XXL</label>
+ </p>
+
+ <div class="admin-actions">
+  <button class="yellow" onclick="saveProduct()">SAVE DRESS</button>
+  <button onclick="clearForm()">CLEAR</button>
+ </div>
+ <p style="font-size:12px;color:#777">
+ Product data is saved in this browser on this device.
+ </p>
+</section>
+
+</main>
+
+<footer>
+ <h3>SHIVA SHOPPING</h3>
+ <p>Bhagyabati Cloth Store</p>
+ <p>Thank you for shopping with us!</p>
+</footer>
+
+<script>
+const PHONE="917325907790";
+
+let products=[];
+try{
+ products=JSON.parse(localStorage.getItem("shiva_products")||"[]");
+ if(!Array.isArray(products))products=[];
+}catch(e){products=[]}
+
+let cart=[];
+
+function saveData(){
+ try{
+  localStorage.setItem("shiva_products",JSON.stringify(products));
+  return true;
+ }catch(e){
+  alert("Storage full! Use smaller photos.");
+  return false;
+ }
+}
+
+function makePhoto(file){
+ return new Promise((resolve,reject)=>{
+  if(!file){resolve("");return}
+  if(file.size>8*1024*1024){
+   reject("Photo too large");return;
+  }
+  const reader=new FileReader();
+  reader.onload=()=>{
+   const img=new Image();
+   img.onload=()=>{
+    const canvas=document.createElement("canvas");
+    const scale=Math.min(700/img.width,900/img.height,1);
+    canvas.width=img.width*scale;
+    canvas.height=img.height*scale;
+    canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+    resolve(canvas.toDataURL("image/jpeg",0.65));
+   };
+   img.onerror=reject;
+   img.src=reader.result;
+  };
+  reader.onerror=reject;
+  reader.readAsDataURL(file);
+ });
+}
+
+function safe(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+async function saveProduct(){
+ const id=document.getElementById("editId").value;
+ const name=document.getElementById("name").value.trim();
+ const price=Number(document.getElementById("price").value);
+ const sizes=[...document.querySelectorAll('input[name="size"]:checked')].map(x=>x.value);
+ const old=products.find(p=>p.id===id);
+ const frontFile=document.getElementById("front").files[0];
+ const backFile=document.getElementById("back").files[0];
+
+ if(!name||price<=0||!sizes.length){
+  alert("Enter name, valid price and sizes.");return;
+ }
+ if(!old&&(!frontFile||!backFile)){
+  alert("Upload both front and back photos.");return;
+ }
+ if(old&&(!old.front||!old.back)&&(!frontFile||!backFile)){
+  alert("Please upload the missing photos.");return;
+ }
+
+ try{
+  const front=frontFile?await makePhoto(frontFile):old.front;
+  const back=backFile?await makePhoto(backFile):old.back;
+
+  const item={
+   id:id||String(Date.now()),
+   name,price,sizes,front,back
+  };
+
+  const previous=products.slice();
+
+  if(id){
+   products=products.map(p=>p.id===id?item:p);
+  }else{
+   products.push(item);
+  }
+
+  if(!saveData()){
+   products=previous;return;
+  }
+
+  clearForm();
+  renderProducts();
+  alert("Dress saved successfully!");
+ }catch(e){
+  alert("Photo problem. Try smaller photos.");
+ }
+}
+
+function clearForm(){
+ document.getElementById("editId").value="";
+ document.getElementById("name").value="";
+ document.getElementById("price").value="";
+ document.getElementById("front").value="";
+ document.getElementById("back").value="";
+ document.querySelectorAll('input[name="size"]').forEach(x=>x.checked=false);
+}
+
+function renderProducts(){
+ const query=document.getElementById("search").value.toLowerCase();
+ const list=document.getElementById("productList");
+ const found=products.filter(p=>p.name.toLowerCase().includes(query));
+
+ document.getElementById("count").textContent=found.length+" Products";
+
+ if(!found.length){
+  list.innerHTML='<div class="empty">No dresses found.</div>';
+  return;
+ }
+
+ list.innerHTML=found.map(p=>`
+ <article class="card">
+  <img class="photo" id="photo-${safe(p.id)}" src="${p.front}" alt="Dress photo">
+  <div class="photo-label" id="label-${safe(p.id)}">Front View</div>
+  <button class="yellow" onclick="switchPhoto('${safe(p.id)}')">VIEW FRONT / BACK</button>
+  <h3>${safe(p.name)}</h3>
+  <div class="price">₹${Number(p.price)}</div>
+  <select class="size-select" id="size-${safe(p.id)}">
+   <option value="">Choose Size</option>
+   ${p.sizes.map(s=>`<option value="${safe(s)}">${safe(s)}</option>`).join("")}
+  </select>
+  <button onclick="addCart('${safe(p.id)}')">ADD TO CART 🛒</button>
+  <div class="admin-actions">
+   <button class="edit" onclick="editProduct('${safe(p.id)}')">EDIT</button>
+   <button class="delete" onclick="deleteProduct('${safe(p.id)}')">DELETE</button>
+  </div>
+ </article>
+ `).join("");
+}
+
+function switchPhoto(id){
+ const p=products.find(x=>x.id===id);
+ if(!p)return;
+ const img=document.getElementById("photo-"+id);
+ const label=document.getElementById("label-"+id);
+ const isFront=label.textContent==="Front View";
+ img.src=isFront?p.back:p.front;
+ label.textContent=isFront?"Back View":"Front View";
+}
+
+function editProduct(id){
+ const p=products.find(x=>x.id===id);
+ if(!p)return;
+ document.getElementById("editId").value=p.id;
+ document.getElementById("name").value=p.name;
+ document.getElementById("price").value=p.price;
+ document.querySelectorAll('input[name="size"]').forEach(x=>{
+  x.checked=p.sizes.includes(x.value);
+ });
+ document.getElementById("admin").scrollIntoView();
+}
+
+function deleteProduct(id){
+ if(!confirm("Delete this dress?"))return;
+ const previous=products.slice();
+ products=products.filter(p=>p.id!==id);
+ if(!saveData()){products=previous;return}
+ cart=cart.filter(c=>c.id!==id);
+ renderProducts();
+ renderCart();
+}
+
+function addCart(id){
+ const p=products.find(x=>x.id===id);
+ if(!p)return;
+ const size=document.getElementById("size-"+id).value;
+ if(!size){alert("Please choose a size.");return}
+ cart.push({id:p.id,name:p.name,price:Number(p.price),size});
+ renderCart();
+ alert("Added to cart!");
+}
+
+function removeCart(i){
+ cart.splice(i,1);
+ renderCart();
+}
+
+function renderCart(){
+ const box=document.getElementById("cartList");
+ if(!cart.length){
+  box.textContent="Your cart is empty.";
+  box.className="empty";
+ }else{
+  box.className="";
+  box.innerHTML=cart.map((c,i)=>`
+   <div class="cart-row">
+   ${safe(c.name)} | Size: ${safe(c.size)} | ₹${c.price}
+   <button class="delete" onclick="removeCart(${i})">Remove</button>
+   </div>
+  `).join("");
+ }
+ const total=cart.reduce((s,c)=>s+c.price,0);
+ document.getElementById("total").textContent="Total: ₹"+total;
+}
+
+function orderNow(){
+ if(!cart.length){alert("Your cart is empty.");return}
+ const message="Hello Bhagyabati Cloth Store! My order:\n"+
+ cart.map((c,i)=>(i+1)+". "+c.name+" | Size "+c.size+" | ₹"+c.price).join("\n")+
+ "\nTotal: ₹"+cart.reduce((s,c)=>s+c.price,0);
+ window.open("https://wa.me/"+PHONE+"?text="+encodeURIComponent(message),"_blank");
+}
+
+renderProducts();
+renderCart();
+</script>
+
+</body>
+</html>
+
