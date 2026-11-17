@@ -1,1 +1,210 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHIVA FASHION | Modern Fashion</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#faf9f6;color:#171717}
+header{background:#111;color:white;padding:20px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+.logo{font-size:25px;letter-spacing:3px;font-weight:bold}
+nav{display:flex;gap:22px;align-items:center}
+nav a{color:white;text-decoration:none;font-size:13px}
+.cart{background:#d6b77a;color:#111;padding:11px 17px;border:0;cursor:pointer;font-weight:bold}
+.hero{min-height:440px;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,.08)),url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400') center/cover;display:flex;align-items:center;padding:50px 8%;color:white}
+.hero h1{font-size:clamp(38px,7vw,68px);max-width:600px;line-height:1.1}
+.hero p{margin:20px 0;font-size:16px}
+.hero a{display:inline-block;background:#d6b77a;color:#111;padding:15px 25px;text-decoration:none;font-weight:bold}
+.section{padding:65px 6%}
+.heading{text-align:center;margin-bottom:35px}
+.heading h2{font-size:32px;letter-spacing:2px}
+.heading p{color:#777;margin-top:10px}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.category{background:#eee;padding:28px 10px;text-align:center;cursor:pointer;border:1px solid #ddd}
+.category h3{font-size:18px}
+.category:hover{background:#e9dfcd}
+.filters{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.filters button{padding:10px 19px;border:1px solid #222;background:transparent;cursor:pointer}
+.filters button.active,.filters button:hover{background:#111;color:white}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.product{background:white;padding-bottom:18px}
+.product img{width:100%;height:270px;object-fit:cover;display:block}
+.product-info{padding:15px}
+.product h3{font-size:16px;margin-bottom:8px}
+.price{font-weight:bold;margin-bottom:13px}
+.product button{width:100%;padding:12px;background:#171717;color:white;border:0;cursor:pointer}
+.product button:hover{background:#b49760}
+.about{background:#eee9df;text-align:center;padding:55px 10%}
+.about h2{font-size:30px;margin-bottom:15px}
+.about p{line-height:1.8;color:#555;max-width:700px;margin:auto}
+.newsletter{text-align:center;padding:55px 15px}
+.newsletter input{padding:13px;width:min(280px,65%);border:1px solid #bbb}
+.newsletter button{padding:14px;background:#111;color:white;border:0}
+footer{background:#111;color:white;text-align:center;padding:35px 15px}
+footer p{color:#bbb;margin-top:10px;font-size:13px}
+.drawer{display:none;position:fixed;inset:0;background:#0009;z-index:10;justify-content:flex-end}
+.drawer-content{background:white;width:min(400px,90%);height:100%;padding:25px;overflow:auto}
+.drawer-top{display:flex;justify-content:space-between;margin-bottom:25px}
+.drawer-top button{padding:6px 12px}
+.cart-item{padding:14px 0;border-bottom:1px solid #ddd}
+.cart-item button{padding:4px 9px;margin:5px}
+.total{font-size:20px;font-weight:bold;margin:20px 0}
+@media(max-width:850px){.products{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:550px){
+ header{justify-content:center}
+ nav{gap:13px;flex-wrap:wrap;justify-content:center}
+ .hero{min-height:380px}
+ .categories{grid-template-columns:1fr}
+ .product img{height:220px}
+ .section{padding:45px 5%}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">SHIVA FASHION</div>
+<nav>
+<a href="#home">HOME</a>
+<a href="#categories">CATEGORIES</a>
+<a href="#shop">SHOP</a>
+<a href="#about">ABOUT</a>
+<button class="cart" onclick="openCart()">CART (<span id="count">0</span>)</button>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<div>
+<h1>STYLE THAT DEFINES YOU.</h1>
+<p>Discover timeless fashion. Express your unique style.</p>
+<a href="#shop">EXPLORE COLLECTION</a>
+</div>
+</section>
+
+<section class="section" id="categories">
+<div class="heading">
+<h2>SHOP BY CATEGORY</h2>
+<p>Find your perfect style</p>
+</div>
+<div class="categories">
+<div class="category" onclick="filterProducts('Women')"><h3>WOMEN'S FASHION</h3></div>
+<div class="category" onclick="filterProducts('Men')"><h3>MEN'S FASHION</h3></div>
+<div class="category" onclick="filterProducts('Kids')"><h3>KIDS' FASHION</h3></div>
+</div>
+</section>
+
+<section class="section" id="shop">
+<div class="heading">
+<h2>OUR COLLECTION</h2>
+<p>Explore our latest fashion picks</p>
+</div>
+<div class="filters">
+<button class="active" onclick="filterProducts('All',this)">All</button>
+<button onclick="filterProducts('Women',this)">Women</button>
+<button onclick="filterProducts('Men',this)">Men</button>
+<button onclick="filterProducts('Kids',this)">Kids</button>
+</div>
+<div class="products" id="products"></div>
+</section>
+
+<section class="about" id="about">
+<h2>ABOUT SHIVA FASHION</h2>
+<p>We believe fashion is more than clothing. It is a way to express your personality. Discover thoughtfully selected styles for every occasion.</p>
+</section>
+
+<section class="newsletter">
+<h2>STAY IN STYLE</h2>
+<p style="margin:12px">Get updates on new collections.</p>
+<input type="email" placeholder="Enter your email">
+<button onclick="alert('Newsletter service will be connected soon!')">SUBSCRIBE</button>
+</section>
+
+<footer>
+<h2>SHIVA FASHION</h2>
+<p>Modern Style. Timeless Elegance.</p>
+<p>© 2026 Shiva Fashion. All rights reserved.</p>
+</footer>
+
+<div class="drawer" id="drawer" onclick="if(event.target===this)closeCart()">
+<div class="drawer-content">
+<div class="drawer-top">
+<h2>YOUR CART</h2>
+<button onclick="closeCart()">CLOSE</button>
+</div>
+<div id="cartItems"></div>
+<div class="total">Total: $<span id="total">0.00</span></div>
+<button onclick="alert('Demo store: connect a real shop contact and checkout service before accepting orders.')">CONTINUE TO CHECKOUT</button>
+</div>
+</div>
+
+<script>
+const items=[
+{id:1,name:"Elegant Summer Dress",category:"Women",price:49,image:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600"},
+{id:2,name:"Classic Fashion Outfit",category:"Women",price:59,image:"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600"},
+{id:3,name:"Modern Casual Shirt",category:"Men",price:39,image:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600"},
+{id:4,name:"Premium Men's Style",category:"Men",price:69,image:"https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600"},
+{id:5,name:"Kids Casual Outfit",category:"Kids",price:29,image:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600"},
+{id:6,name:"Beautiful Party Dress",category:"Women",price:79,image:"https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=600"},
+{id:7,name:"Men's Everyday Wear",category:"Men",price:45,image:"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600"},
+{id:8,name:"Kids Fashion Set",category:"Kids",price:35,image:"https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=600"}
+];
+let cart=[];
+function showProducts(category="All"){
+const list=category==="All"?items:items.filter(p=>p.category===category);
+document.getElementById("products").innerHTML=list.map(p=>`
+<div class="product">
+<img src="${p.image}" alt="${p.name}" loading="lazy">
+<div class="product-info">
+<h3>${p.name}</h3>
+<p class="price">$${p.price.toFixed(2)}</p>
+<button onclick="addCart(${p.id})">ADD TO CART</button>
+</div>
+</div>`).join("");
+}
+function filterProducts(category,btn){
+showProducts(category);
+document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+if(btn)btn.classList.add("active");
+document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+}
+function addCart(id){
+const p=items.find(x=>x.id===id);
+const found=cart.find(x=>x.id===id);
+if(found)found.qty++;
+else cart.push({...p,qty:1});
+updateCart();
+}
+function updateCart(){
+document.getElementById("count").textContent=cart.reduce((s,p)=>s+p.qty,0);
+document.getElementById("cartItems").innerHTML=cart.length?cart.map(p=>`
+<div class="cart-item">
+<strong>${p.name}</strong><br>
+$${p.price.toFixed(2)} × ${p.qty}
+<br>
+<button onclick="changeQty(${p.id},-1)">−</button>
+<button onclick="changeQty(${p.id},1)">+</button>
+</div>`).join(""):"Your cart is empty.";
+const total=cart.reduce((s,p)=>s+p.price*p.qty,0);
+document.getElementById("total").textContent=total.toFixed(2);
+}
+function changeQty(id,n){
+const p=cart.find(x=>x.id===id);
+if(!p)return;
+p.qty+=n;
+if(p.qty<=0)cart=cart.filter(x=>x.id!==id);
+updateCart();
+}
+function openCart(){
+document.getElementById("drawer").style.display="flex";
+}
+function closeCart(){
+document.getElementById("drawer").style.display="none";
+}
+showProducts();
+updateCart();
+</script>
+</body>
+</html>
+
